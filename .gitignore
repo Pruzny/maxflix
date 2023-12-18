@@ -48,5 +48,6 @@ app.*.map.json
 # Env
 .env
 
-# Flutter
+# Flutter/Dart
 pubspec.lock
+*.g.dart
