@@ -51,3 +51,6 @@ app.*.map.json
 # Flutter/Dart
 pubspec.lock
 *.g.dart
+
+# VSCode
+.vscode/
