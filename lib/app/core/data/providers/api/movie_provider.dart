@@ -1,4 +1,5 @@
 import '../../../adapters/http_adapter.dart';
+import '../../../constants.dart';
 import '../../../env/env.dart';
 import '../../../exceptions/api/no_api_response_exception.dart';
 import '../../../exceptions/api/unexpected_api_exception.dart';
@@ -62,7 +63,7 @@ class MovieProvider extends BaseProvider {
   /// ```
   Future<Map<String, dynamic>> getMovies({
     int page = 1,
-    String language = "en-US",
+    String language = Constants.defaultLocaleTag,
     List<int> withGenres = const [],
     List<int> withoutGenres = const [],
   }) async {
@@ -80,7 +81,6 @@ class MovieProvider extends BaseProvider {
           "without_genres": withoutGenres.join(","),
         },
       );
-      print(response);
 
       validateResponse(
         response: response,
@@ -147,7 +147,7 @@ class MovieProvider extends BaseProvider {
   Future<Map<String, dynamic>> getMoviesByName({
     required String query,
     int page = 1,
-    String language = "en-US",
+    String language = Constants.defaultLocaleTag,
   }) async {
     try {
       final response = await _http.get(
@@ -252,11 +252,93 @@ class MovieProvider extends BaseProvider {
   /// ```
   Future<Map<String, dynamic>> getMovieDetails({
     required int id,
-    String language = "en-US",
+    String language = Constants.defaultLocaleTag,
   }) async {
     try {
       final response = await _http.get(
         "/movie/$id",
+        query: {
+          "api_key": Env.apiKey,
+          "language": language,
+        },
+      );
+
+      validateResponse(
+        response: response,
+        statusCodes: [200],
+      );
+
+      return response.data;
+    } on NoApiResponseException {
+      rethrow;
+    } catch (e) {
+      logError(e.toString());
+      throw UnexpectedApiException();
+    }
+  }
+
+  /// Get movie credits from movie endpoint. Can select language.
+  ///
+  /// `GET` `/movie/{movie_id}/credits`
+  ///
+  /// ### Authenticated
+  /// `true`
+  ///
+  /// ### Path Variables
+  /// + `movie_id` Movie id.
+  ///
+  /// ### Request Parameters
+  /// + `api_key` API key.
+  /// + `language` Language used in results.
+  ///
+  /// ### Request body
+  /// `none`
+  ///
+  /// ### Responses
+  /// `200`
+  /// ```json
+  /// {
+  ///   "id": integer,
+  ///   "cast": [
+  ///     {
+  ///       "adult": boolean,
+  ///       "gender": integer,
+  ///       "id": integer,
+  ///       "known_for_department": string,
+  ///       "name": string,
+  ///       "original_name": string,
+  ///       "popularity": number,
+  ///       "profile_path": string,
+  ///       "cast_id": integer,
+  ///       "character": string,
+  ///       "credit_id": string,
+  ///       "order": integer
+  ///     }
+  ///   ],
+  ///   "crew": [
+  ///     {
+  ///       "adult": boolean,
+  ///       "gender": integer,
+  ///       "id": integer,
+  ///       "known_for_department": string,
+  ///       "name": string,
+  ///       "original_name": string,
+  ///       "popularity": number,
+  ///       "profile_path": string,
+  ///       "credit_id": string,
+  ///       "department": string,
+  ///       "job": string
+  ///     }
+  ///   ]
+  /// }
+  /// ```
+  Future<Map<String, dynamic>> getMovieCredits({
+    required int id,
+    String language = Constants.defaultLocaleTag,
+  }) async {
+    try {
+      final response = await _http.get(
+        "/movie/$id/credits",
         query: {
           "api_key": Env.apiKey,
           "language": language,

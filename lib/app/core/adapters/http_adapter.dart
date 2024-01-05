@@ -108,10 +108,10 @@ class HttpAdapter extends Interceptor implements Http {
 
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(milliseconds: httpTimeout),
-      receiveTimeout: const Duration(milliseconds: httpTimeout),
-      sendTimeout: const Duration(milliseconds: httpTimeout),
+      baseUrl: Constants.baseUrl,
+      connectTimeout: const Duration(milliseconds: Constants.httpTimeout),
+      receiveTimeout: const Duration(milliseconds: Constants.httpTimeout),
+      sendTimeout: const Duration(milliseconds: Constants.httpTimeout),
     ),
   );
 
@@ -133,13 +133,13 @@ class HttpAdapter extends Interceptor implements Http {
         case 401:
           return dioExceptionNewMessage(
             dioException: dioException,
-            message: httpUnauthorizedErrorMessage,
+            message: Constants.httpUnauthorizedErrorMessage,
           );
         // Server Error
         case 500:
           return dioExceptionNewMessage(
             dioException: dioException,
-            message: httpServerErrorMessage,
+            message: Constants.httpServerErrorMessage,
           );
         default:
           return dioException;
@@ -149,13 +149,13 @@ class HttpAdapter extends Interceptor implements Http {
     // No Connection Error
     return dioExceptionNewMessage(
       dioException: dioException,
-      message: httpNoConnectionErrorMessage,
+      message: Constants.httpNoConnectionErrorMessage,
     );
   }
 
   Future<dynamic> requestWithRetry(
     Future<dynamic> Function() request, {
-    int maxRetries = maxRetries,
+    int maxRetries = Constants.maxRetries,
     int? delayBetweenRetry,
   }) async {
     try {
@@ -167,7 +167,7 @@ class HttpAdapter extends Interceptor implements Http {
           try {
             // Delay between attempts
             await Future.delayed(const Duration(
-              milliseconds: retryDelay,
+              milliseconds: Constants.retryDelay,
             ));
 
             // Retry request
