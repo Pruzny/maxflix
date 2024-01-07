@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../domain/models/person_model.dart';
 
 class PersonDto extends PersonModel {
-  PersonDto({
+  const PersonDto({
     required super.id,
     required super.name,
   });

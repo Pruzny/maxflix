@@ -4,7 +4,7 @@ import '../../domain/models/movie_preview_model.dart';
 import 'genre_dto.dart';
 
 class MoviePreviewDto extends MoviePreviewModel {
-  MoviePreviewDto({
+  const MoviePreviewDto({
     required super.id,
     super.imageFileName,
     required super.title,
@@ -12,7 +12,7 @@ class MoviePreviewDto extends MoviePreviewModel {
     this.genreIds = const [],
   });
 
-  List<int> genreIds;
+  final List<int> genreIds;
 
   factory MoviePreviewDto.fromModel(MoviePreviewModel model) {
     // Map genre models to DTOs

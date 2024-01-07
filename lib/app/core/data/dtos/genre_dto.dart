@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../domain/models/genre_model.dart';
 
 class GenreDto extends GenreModel {
-  GenreDto({
+  const GenreDto({
     required super.id,
     required super.name,
   });

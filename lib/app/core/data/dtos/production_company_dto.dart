@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../domain/models/production_company_model.dart';
 
 class ProductionCompanyDto extends ProductionCompanyModel {
-  ProductionCompanyDto({
+  const ProductionCompanyDto({
     required super.id,
     required super.name,
   });

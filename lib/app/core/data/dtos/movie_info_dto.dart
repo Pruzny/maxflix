@@ -6,7 +6,7 @@ import 'person_dto.dart';
 import 'production_company_dto.dart';
 
 class MovieInfoDto extends MovieInfoModel {
-  MovieInfoDto({
+  const MovieInfoDto({
     required super.id,
     super.imageFileName,
     required super.averageVote,
