@@ -72,7 +72,8 @@ class MoviePreviewDto extends MoviePreviewModel {
       "id": id,
       "poster_path": imageFileName,
       "title": title,
-      "genre_ids": genresAsMap,
+      "genres": genresAsMap,
+      "genre_ids": genreIds,
     };
   }
 

@@ -30,6 +30,14 @@ class MovieInfoDto extends MovieInfoModel {
         )
         .toList();
 
+    // Map production companies to DTOs
+    final productionCompaniesAsDto = model.productionCompanies
+        .map(
+          (productionCompany) =>
+              ProductionCompanyDto.fromModel(productionCompany),
+        )
+        .toList();
+
     // Map director models to DTOs
     final directorsAsDto = model.directors
         .map(
@@ -55,7 +63,7 @@ class MovieInfoDto extends MovieInfoModel {
       genres: genresAsDto,
       description: model.description,
       budget: model.budget,
-      productionCompanies: model.productionCompanies,
+      productionCompanies: productionCompaniesAsDto,
       directors: directorsAsDto,
       cast: castAsDto,
     );
